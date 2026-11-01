@@ -1,68 +1,954 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-wl-brand>NEXUS AI — Founder MRR & Waitlist Hub</title>
-  <link rel="stylesheet" href="theme-tokens.css">
+  <title data-brand="brand_name">Apex Cloud Console — Developer Lead Pipeline & Telemetry Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="whitelabel.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #06070B; color: #F8FAFC; font-family: sans-serif; padding: 24px; }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-    .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
-    .kpi-card { background: #0D1017; border: 1px solid rgba(255,255,255,0.08); padding: 20px; border-radius: 12px; }
-    .kpi-title { font-size: 12px; color: #94A3B8; text-transform: uppercase; margin-bottom: 6px; }
-    .kpi-num { font-size: 28px; font-weight: 700; color: #FFF; }
-    .kanban-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .kanban-col { background: #090C15; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; }
-    .col-header { font-size: 14px; font-weight: 700; margin-bottom: 14px; display: flex; justify-content: space-between; }
-    .lead-card { background: #121622; border: 1px solid rgba(255,255,255,0.06); padding: 14px; border-radius: 8px; margin-bottom: 12px; }
-    .lead-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
-    .lead-meta { font-size: 12px; color: #94A3B8; margin-bottom: 8px; }
-    .btn { background: var(--color-primary, #6366F1); color: #FFF; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+    :root {
+      --bg-base: #06070a;
+      --bg-surface: #0b0d13;
+      --bg-card: #11141d;
+      --bg-card-hover: #181c28;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(99, 102, 241, 0.5);
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --sidebar-width: 250px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 50;
+      transition: transform 0.3s ease;
+    }
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--accent-cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-mark svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: #fff;
+      stroke-width: 2.2;
+    }
+    .sidebar-brand-name {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .sidebar-nav {
+      padding: 16px 12px;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .nav-item:hover, .nav-item.active {
+      background: rgba(99, 102, 241, 0.12);
+      color: #fff;
+    }
+    .nav-item.active {
+      font-weight: 600;
+      color: #a5b4fc;
+    }
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 12px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* MAIN CONTENT WRAPPER */
+    .main-wrap {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      height: 64px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .page-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .storefront-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .storefront-link:hover { background: rgba(6, 182, 212, 0.2); }
+
+    .content-body {
+      padding: 28px;
+      flex: 1;
+    }
+
+    /* METRICS STRIP */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 1024px) {
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .metric-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .metric-title {
+      font-size: 12px;
+      color: var(--text-dim);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .metric-val {
+      font-size: 26px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      letter-spacing: -0.02em;
+    }
+    .metric-delta {
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .delta-up { color: var(--accent-emerald); }
+
+    /* TAB CONTENT SECTIONS */
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+
+    /* KANBAN BOARD */
+    .kanban-filterbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .search-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 280px;
+    }
+    .search-input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+      width: 100%;
+    }
+
+    .kanban-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      min-height: 520px;
+    }
+    @media (max-width: 1100px) {
+      .kanban-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 650px) {
+      .kanban-grid { grid-template-columns: 1fr; }
+    }
+
+    .kanban-col {
+      background: rgba(17, 20, 29, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+    .col-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .col-title {
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .col-count {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 2px 7px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .kanban-cards-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .lead-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .lead-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-2px);
+    }
+    .lead-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .lead-company {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .tier-badge {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .tier-enterprise { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.4); }
+    .tier-pro { background: rgba(6, 182, 212, 0.15); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.3); }
+    .tier-starter { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.3); }
+
+    .lead-contact {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+    .lead-usecase {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .lead-card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 10px;
+    }
+    .btn-advance {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      color: #a5b4fc;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-advance:hover { background: rgba(99, 102, 241, 0.3); }
+
+    /* TABLE LAYOUTS */
+    .data-table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .table-responsive {
+      overflow-x: auto;
+    }
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+    .data-table th {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 14px 18px;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .data-table td {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+    }
+    .data-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text-main);
+    }
+
+    /* TELEMETRY NODES GRID */
+    .nodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .node-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .node-status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--accent-emerald);
+    }
+
+    /* BUTTONS & CONTROLS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid var(--border-subtle); color: var(--text-main); }
+    .btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+    /* FORM INPUTS */
+    .form-box {
+      max-width: 640px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+    .form-control {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+    }
+    .form-control:focus { border-color: var(--primary); }
+
+    /* TOAST */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      background: #151924;
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      padding: 12px 18px;
+      color: #fff;
+      font-size: 13px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
   </style>
 </head>
-<body data-layout-archetype="obsidian-spotlight-bento-admin">
-  <div class="header">
-    <h2><span data-wl-brand>NEXUS AI</span> — Founder Pipeline & MRR Console</h2>
-    <a href="index.html" style="color:var(--color-primary); font-size:14px; text-decoration:none;">&larr; Public Landing</a>
-  </div>
-  <div class="kpi-row">
-    <div class="kpi-card"><div class="kpi-title">Current MRR</div><div class="kpi-num">$24,850</div></div>
-    <div class="kpi-card"><div class="kpi-title">Active Waitlist</div><div class="kpi-num">1,420</div></div>
-    <div class="kpi-card"><div class="kpi-title">Avg p99 Latency</div><div class="kpi-num" style="color:#10B981;">18.2ms</div></div>
-    <div class="kpi-card"><div class="kpi-title">Cloudflare D1 Reads</div><div class="kpi-num">4.2M</div></div>
-  </div>
-  <div class="kanban-grid">
-    <div class="kanban-col">
-      <div class="col-header"><span>New Inquiries (4)</span> <span style="color:#94A3B8;">Tier 1</span></div>
-      <div class="lead-card">
-        <div class="lead-name">Apex FinTech GmbH</div>
-        <div class="lead-meta">Volume: 12M calls/mo · Budget: $2,500/mo</div>
-        <button class="btn" onclick="alert('Contacting customer via WhatsApp...')">Send Enterprise Proposal</button>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="adminSidebar">
+    <div class="sidebar-header">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 2 22 22 22"></polygon></svg>
       </div>
-      <div class="lead-card">
-        <div class="lead-name">Krypton Robotics</div>
-        <div class="lead-meta">Volume: 5M calls/mo · Budget: $800/mo</div>
-        <button class="btn">Send Enterprise Proposal</button>
+      <div>
+        <div class="sidebar-brand-name" data-brand="brand_name">Apex Cloud</div>
+        <div style="font-size: 11px; color: var(--text-dim);">Developer Console</div>
       </div>
     </div>
-    <div class="kanban-col">
-      <div class="col-header"><span>Sandbox Active (3)</span> <span style="color:#6366F1;">Testing</span></div>
-      <div class="lead-card">
-        <div class="lead-name">Solaar Health AI</div>
-        <div class="lead-meta">Tokens consumed: 18.2M · 4 days remaining</div>
-        <button class="btn" style="background:#10B981;">Upgrade to Production</button>
-      </div>
+
+    <ul class="sidebar-nav">
+      <li class="nav-item active" onclick="switchAdminTab('leads', this)">
+        <span>📊</span>
+        <span>Lead Pipeline (CRM)</span>
+      </li>
+      <li class="nav-item" onclick="switchAdminTab('apikeys', this)">
+        <span>🔑</span>
+        <span>API Keys & Quotas</span>
+      </li>
+      <li class="nav-item" onclick="switchAdminTab('telemetry', this)">
+        <span>🌐</span>
+        <span>Global PoP Telemetry</span>
+      </li>
+      <li class="nav-item" onclick="switchAdminTab('settings', this)">
+        <span>⚙️</span>
+        <span>Platform Settings</span>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <span>D1 Edge SQLite v3.45</span>
+      <span style="color: var(--accent-emerald);">● Online</span>
     </div>
-    <div class="kanban-col">
-      <div class="col-header"><span>Enterprise Won (18)</span> <span style="color:#10B981;">Contracted</span></div>
-      <div class="lead-card">
-        <div class="lead-name">Global Media Corp</div>
-        <div class="lead-meta">Annual contract: $48,000/yr · Direct Slack VIP</div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="main-wrap">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h1 class="page-title" id="pageHeading">Developer Lead Pipeline (Kanban)</h1>
+      <div class="topbar-actions">
+        <a href="index.html" class="storefront-link" target="_blank">
+          <span>Public Bento Storefront</span>
+          <span>&rarr;</span>
+        </a>
       </div>
-    </div>
+    </header>
+
+    <!-- CONTENT BODY -->
+    <main class="content-body">
+      <!-- METRIC CARDS -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-title">Waitlist Signups</span>
+            <span class="metric-delta delta-up">↑ 18.4%</span>
+          </div>
+          <div class="metric-val" id="metricTotalLeads">1,428</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-title">Active API Keys</span>
+            <span class="metric-delta delta-up">↑ 12.1%</span>
+          </div>
+          <div class="metric-val">342</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-title">Daily Tokens Streamed</span>
+            <span class="metric-delta delta-up">↑ 24.8%</span>
+          </div>
+          <div class="metric-val">48.2M</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-title">Revenue Pipeline</span>
+            <span class="metric-delta delta-up">↑ $14.2k</span>
+          </div>
+          <div class="metric-val">$128,400</div>
+        </div>
+      </div>
+
+      <!-- TAB 1: KANBAN LEAD PIPELINE -->
+      <section class="tab-pane active" id="tabLeads">
+        <div class="kanban-filterbar">
+          <div class="search-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" class="search-input" placeholder="Search company, founder, or tier..." oninput="filterKanban(this.value)">
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-outline" onclick="loadLeads()">🔄 Refresh Leads</button>
+            <button class="btn btn-primary" onclick="simulateNewLead()">+ Manual Lead</button>
+          </div>
+        </div>
+
+        <div class="kanban-grid">
+          <!-- COL 1: WAITLIST -->
+          <div class="kanban-col">
+            <div class="col-header">
+              <span class="col-title">
+                <span style="color: var(--text-dim);">●</span> New Waitlist
+              </span>
+              <span class="col-count" id="countWaitlist">1</span>
+            </div>
+            <div class="kanban-cards-box" id="colWaitlist"></div>
+          </div>
+
+          <!-- COL 2: TRIAL -->
+          <div class="kanban-col">
+            <div class="col-header">
+              <span class="col-title">
+                <span style="color: var(--accent-cyan);">●</span> Active Trial
+              </span>
+              <span class="col-count" id="countTrial">2</span>
+            </div>
+            <div class="kanban-cards-box" id="colTrial"></div>
+          </div>
+
+          <!-- COL 3: DEMO SCHEDULED -->
+          <div class="kanban-col">
+            <div class="col-header">
+              <span class="col-title">
+                <span style="color: var(--accent-amber);">●</span> Demo Scheduled
+              </span>
+              <span class="col-count" id="countDemo">2</span>
+            </div>
+            <div class="kanban-cards-box" id="colDemo"></div>
+          </div>
+
+          <!-- COL 4: CLOSED ENTERPRISE -->
+          <div class="kanban-col">
+            <div class="col-header">
+              <span class="col-title">
+                <span style="color: var(--accent-emerald);">●</span> Enterprise Closed
+              </span>
+              <span class="col-count" id="countClosed">1</span>
+            </div>
+            <div class="kanban-cards-box" id="colClosed"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: API KEYS -->
+      <section class="tab-pane" id="tabApikeys">
+        <div class="kanban-filterbar">
+          <div style="font-size: 14px; font-weight: 600;">Active Client Authentication Keys</div>
+          <button class="btn btn-primary" onclick="issueNewKey()">+ Issue Production Key</button>
+        </div>
+        <div class="data-table-card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Key Label</th>
+                  <th>Key Prefix</th>
+                  <th>Tier</th>
+                  <th>Rate Limit</th>
+                  <th>Usage (Monthly)</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="apiKeysTableBody">
+                <tr>
+                  <td style="font-weight: 600; color: #fff;">Acme Production Worker</td>
+                  <td style="font-family: var(--font-mono);">apex_live_8f3a...</td>
+                  <td><span class="tier-badge tier-enterprise">Enterprise</span></td>
+                  <td>500 RPS</td>
+                  <td>18.4M / 25M (73%)</td>
+                  <td><span style="color: var(--accent-emerald);">● Active</span></td>
+                  <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 11px;" onclick="revokeKey('Acme')">Revoke</button></td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 600; color: #fff;">FinFlow Fraud Classifier</td>
+                  <td style="font-family: var(--font-mono);">apex_live_21bc...</td>
+                  <td><span class="tier-badge tier-pro">Pro</span></td>
+                  <td>120 RPS</td>
+                  <td>3.1M / 5M (62%)</td>
+                  <td><span style="color: var(--accent-emerald);">● Active</span></td>
+                  <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 11px;" onclick="revokeKey('FinFlow')">Revoke</button></td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 600; color: #fff;">Hyperlink Staging Bot</td>
+                  <td style="font-family: var(--font-mono);">apex_test_99e4...</td>
+                  <td><span class="tier-badge tier-starter">Developer</span></td>
+                  <td>60 RPS</td>
+                  <td>241k / 1M (24%)</td>
+                  <td><span style="color: var(--accent-emerald);">● Active</span></td>
+                  <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 11px;" onclick="revokeKey('Hyperlink')">Revoke</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: TELEMETRY -->
+      <section class="tab-pane" id="tabTelemetry">
+        <div style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">Global Cloudflare Edge Node Health</div>
+        <div class="nodes-grid">
+          <div class="node-card">
+            <div>
+              <div style="font-weight: 700; color: #fff;">North America East (IAD - Ashburn)</div>
+              <div style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Latency: 11ms · Cache Hit: 96.4%</div>
+            </div>
+            <div class="node-status-dot"></div>
+          </div>
+          <div class="node-card">
+            <div>
+              <div style="font-weight: 700; color: #fff;">North America West (SFO - San Jose)</div>
+              <div style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Latency: 12ms · Cache Hit: 94.8%</div>
+            </div>
+            <div class="node-status-dot"></div>
+          </div>
+          <div class="node-card">
+            <div>
+              <div style="font-weight: 700; color: #fff;">Europe Central (FRA - Frankfurt)</div>
+              <div style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Latency: 14ms · Cache Hit: 98.1%</div>
+            </div>
+            <div class="node-status-dot"></div>
+          </div>
+          <div class="node-card">
+            <div>
+              <div style="font-weight: 700; color: #fff;">Asia Pacific (BOM - Mumbai)</div>
+              <div style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Latency: 16ms · Cache Hit: 93.9%</div>
+            </div>
+            <div class="node-status-dot"></div>
+          </div>
+          <div class="node-card">
+            <div>
+              <div style="font-weight: 700; color: #fff;">Asia Pacific (SIN - Singapore)</div>
+              <div style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Latency: 15ms · Cache Hit: 95.2%</div>
+            </div>
+            <div class="node-status-dot"></div>
+          </div>
+          <div class="node-card">
+            <div>
+              <div style="font-weight: 700; color: #fff;">Asia Pacific (TYO - Tokyo)</div>
+              <div style="font-size: 12px; color: var(--text-dim); margin-top: 2px;">Latency: 18ms · Cache Hit: 92.7%</div>
+            </div>
+            <div class="node-status-dot"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: SETTINGS -->
+      <section class="tab-pane" id="tabSettings">
+        <div class="form-box">
+          <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 20px;">Platform Configuration & White-Label</h3>
+          <form onsubmit="saveSettings(event)">
+            <div class="form-group">
+              <label class="form-label">Announcement Bar Text</label>
+              <input type="text" class="form-control" id="cfgAnnouncement" value="🚀 Apex Engine v3.2 released: 35% lower p99 latency & speculative decoding support">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sales Concierge WhatsApp Number</label>
+              <input type="text" class="form-control" id="cfgWa" value="919061902295">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Default Rate Limit (RPS)</label>
+              <input type="number" class="form-control" id="cfgRps" value="120">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Webhook Discord / Slack Alert Endpoint</label>
+              <input type="text" class="form-control" id="cfgWebhook" placeholder="https://discord.com/api/webhooks/...">
+            </div>
+            <button type="submit" class="btn btn-primary">Save Platform Settings</button>
+          </form>
+        </div>
+      </section>
+    </main>
   </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastBox"></div>
+
+  <script>
+    let leadsData = [
+      { id: 'lead_001', name: 'Sarah Jenkins', email: 'sjenkins@finflow.io', company: 'FinFlow Payments', team_size: '50-200', use_case: 'Real-time transaction fraud scoring with sub-20ms edge inference', project_tier: 'enterprise', monthly_budget: '$5k-$10k', stage: 'demo' },
+      { id: 'lead_002', name: 'Marcus Vance', email: 'marcus@hyperlink.dev', company: 'Hyperlink Inc', team_size: '11-50', use_case: 'Multi-tenant agentic search and context embedding cache', project_tier: 'pro', monthly_budget: '$1k-$3k', stage: 'trial' },
+      { id: 'lead_003', name: 'Elena Rostova', email: 'elena@novasurge.tech', company: 'NovaSurge Robotics', team_size: '200+', use_case: 'Autonomous telemetry perception processing at global edge nodes', project_tier: 'enterprise', monthly_budget: '$10k+', stage: 'closed' },
+      { id: 'lead_004', name: 'David Kim', email: 'dkim@promptcraft.ai', company: 'PromptCraft Studio', team_size: '1-10', use_case: 'High-throughput LLM prompt chaining and speculative cache', project_tier: 'starter', monthly_budget: '$200-$500', stage: 'waitlist' },
+      { id: 'lead_005', name: 'Arun Patel', email: 'arun@cloudscale.in', company: 'CloudScale Data', team_size: '50-200', use_case: 'PostgreSQL pgvector edge acceleration with D1 cache layer', project_tier: 'pro', monthly_budget: '$2k-$5k', stage: 'demo' },
+      { id: 'lead_006', name: 'Chloe Dupont', email: 'cdupont@lexicongraph.eu', company: 'Lexicon Graph', team_size: '11-50', use_case: 'Knowledge graph extraction and real-time citation synthesizer', project_tier: 'pro', monthly_budget: '$1k-$3k', stage: 'trial' }
+    ];
+
+    function renderKanban() {
+      const colWaitlist = document.getElementById('colWaitlist');
+      const colTrial = document.getElementById('colTrial');
+      const colDemo = document.getElementById('colDemo');
+      const colClosed = document.getElementById('colClosed');
+
+      colWaitlist.innerHTML = '';
+      colTrial.innerHTML = '';
+      colDemo.innerHTML = '';
+      colClosed.innerHTML = '';
+
+      let cWaitlist = 0, cTrial = 0, cDemo = 0, cClosed = 0;
+
+      leadsData.forEach(l => {
+        const card = document.createElement('div');
+        card.className = 'lead-card';
+        card.innerHTML = `
+          <div class="lead-top">
+            <span class="lead-company">${escapeHtml(l.company)}</span>
+            <span class="tier-badge tier-${l.project_tier || 'pro'}">${l.project_tier || 'pro'}</span>
+          </div>
+          <div class="lead-contact">${escapeHtml(l.name)} · ${escapeHtml(l.email)}</div>
+          <div class="lead-usecase">${escapeHtml(l.use_case)}</div>
+          <div class="lead-card-actions">
+            <span style="font-size: 11px; font-family: var(--font-mono); color: var(--text-dim);">${l.monthly_budget}</span>
+            <button class="btn-advance" onclick="advanceLead('${l.id}', '${l.stage}')">
+              ${getNextStageText(l.stage)} &rarr;
+            </button>
+          </div>
+        `;
+
+        if (l.stage === 'waitlist') { colWaitlist.appendChild(card); cWaitlist++; }
+        else if (l.stage === 'trial') { colTrial.appendChild(card); cTrial++; }
+        else if (l.stage === 'demo') { colDemo.appendChild(card); cDemo++; }
+        else if (l.stage === 'closed') { colClosed.appendChild(card); cClosed++; }
+      });
+
+      document.getElementById('countWaitlist').textContent = cWaitlist;
+      document.getElementById('countTrial').textContent = cTrial;
+      document.getElementById('countDemo').textContent = cDemo;
+      document.getElementById('countClosed').textContent = cClosed;
+    }
+
+    function getNextStageText(current) {
+      if (current === 'waitlist') return 'Approve Trial';
+      if (current === 'trial') return 'Schedule Demo';
+      if (current === 'demo') return 'Close Enterprise';
+      return 'Archive';
+    }
+
+    function advanceLead(id, current) {
+      const nextMap = {
+        waitlist: 'trial',
+        trial: 'demo',
+        demo: 'closed',
+        closed: 'waitlist'
+      };
+      const next = nextMap[current] || 'waitlist';
+      const target = leadsData.find(l => l.id === id);
+      if (target) {
+        target.stage = next;
+        renderKanban();
+        showToast(`Lead for ${target.company} advanced to ${next.toUpperCase()}!`);
+      }
+    }
+
+    function filterKanban(term) {
+      const q = term.toLowerCase();
+      document.querySelectorAll('.lead-card').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(q) ? 'block' : 'none';
+      });
+    }
+
+    function switchAdminTab(tabId, el) {
+      document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      if (tabId === 'leads') {
+        document.getElementById('tabLeads').classList.add('active');
+        document.getElementById('pageHeading').textContent = 'Developer Lead Pipeline (Kanban)';
+      } else if (tabId === 'apikeys') {
+        document.getElementById('tabApikeys').classList.add('active');
+        document.getElementById('pageHeading').textContent = 'API Authentication & Quota Matrix';
+      } else if (tabId === 'telemetry') {
+        document.getElementById('tabTelemetry').classList.add('active');
+        document.getElementById('pageHeading').textContent = 'Global Edge PoP Telemetry Monitor';
+      } else if (tabId === 'settings') {
+        document.getElementById('tabSettings').classList.add('active');
+        document.getElementById('pageHeading').textContent = 'Platform & White-Label Configuration';
+      }
+    }
+
+    function simulateNewLead() {
+      const mock = {
+        id: 'lead_' + Math.random().toString(36).substr(2, 6),
+        name: 'Devin Thorne',
+        email: 'dthorne@aerovex.ai',
+        company: 'AeroVex Autonomous',
+        team_size: '20-50',
+        use_case: 'Telemetry ingestion from 5,000 edge drones simultaneously',
+        project_tier: 'enterprise',
+        monthly_budget: '$10k+',
+        stage: 'waitlist'
+      };
+      leadsData.unshift(mock);
+      renderKanban();
+      showToast('New enterprise lead recorded for AeroVex Autonomous!');
+    }
+
+    function issueNewKey() {
+      const label = prompt("Enter label for new API Key:", "Staging Worker Node");
+      if (!label) return;
+      const tbody = document.getElementById('apiKeysTableBody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="font-weight: 600; color: #fff;">${escapeHtml(label)}</td>
+        <td style="font-family: var(--font-mono);">apex_live_${Math.random().toString(36).substr(2, 6)}...</td>
+        <td><span class="tier-badge tier-pro">Pro</span></td>
+        <td>120 RPS</td>
+        <td>0 / 5M (0%)</td>
+        <td><span style="color: var(--accent-emerald);">● Active</span></td>
+        <td><button class="btn btn-outline" style="padding: 4px 8px; font-size: 11px;" onclick="this.closest('tr').remove(); showToast('Key revoked');">Revoke</button></td>
+      `;
+      tbody.prepend(tr);
+      showToast('New API key issued successfully!');
+    }
+
+    function revokeKey(name) {
+      if (confirm(`Revoke API key for ${name}? Immediate 401 on edge workers.`)) {
+        showToast(`Key for ${name} has been revoked.`);
+      }
+    }
+
+    function saveSettings(e) {
+      e.preventDefault();
+      showToast('Settings and white-label tokens saved to Cloudflare D1!');
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toastBox');
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = msg;
+      box.appendChild(t);
+      setTimeout(() => t.remove(), 3500);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/[&<>"']/g, function(m) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+      });
+    }
+
+    // INIT
+    renderKanban();
+  </script>
 </body>
 </html>
