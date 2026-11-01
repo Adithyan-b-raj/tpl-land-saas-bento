@@ -1,17 +1,31 @@
-/* Extracted via tpl-tools-design-extractor (Dark Obsidian AI / SaaS Bento (Linear / Raycast / Vercel Style)) */
+/* ==========================================================================
+   BMAD Normalized Design Tokens & Movement Blueprint (theme-tokens.css)
+   Movement  : [F] Obsidian Glass & Spotlight Bento Grid
+   Archetype : Dark Obsidian AI Developer Cloud & Bento Launchpad (Linear / Raycast / Resend)
+   Reference : https://linear.app
+   Contract  : whitelabel-and-showroom-contract.md §2 + design-movements-and-layout-blueprints.md
+   ========================================================================== */
+
 :root {
   --font-primary: 'Inter', sans-serif;
   --font-accent: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
   --color-primary: #6366F1;
   --brand-primary: var(--color-primary);
-  --color-dark: #09090B;
+
+  --color-dark: #06070B;
   --brand-dark: var(--color-dark);
-  --bg-main: #09090B;
-  --bg-canvas: #12131A;
+
+  --bg-main: #06070B;
+  --bg-canvas: #0D1017;
   --bg-sand: var(--bg-canvas);
-  --border-color: #27272A;
-  --grid-gap-desktop: 24px 24px;
-  --grid-gap-mobile: 16px 16px;
-  --radius: 12px;
+
+  --border-color: rgba(255, 255, 255, 0.09);
+  --border-structural: 1px solid rgba(255, 255, 255, 0.09);
+  --shadow-token: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.08);
+  --grid-gap-desktop: 18px;
+  --grid-gap-mobile: 12px;
+  --radius: 16px;
   --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 }
