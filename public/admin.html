@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS AI CLOUD — Admin Command Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="theme-tokens.css">
+  <script src="whitelabel.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-primary);
+      background: #F4F5F7;
+      color: #111827;
+      display: flex;
+      min-height: 100vh;
+    }
+    aside.admin-sidebar {
+      width: 250px;
+      background: var(--brand-dark);
+      color: #FFFFFF;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .sidebar-brand-title {
+      font-family: var(--font-accent);
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .sidebar-brand-title span { color: var(--brand-primary); }
+    .nav-item {
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: #CBD5E1;
+    }
+    .nav-item.active, .nav-item:hover {
+      background: var(--brand-primary);
+      color: #FFFFFF;
+    }
+    main {
+      flex: 1;
+      padding: 28px;
+      overflow-y: auto;
+    }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .kpi-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #64748B; }
+    .kpi-val { font-size: 24px; font-weight: 700; margin: 6px 0 4px; color: #0F172A; }
+    .kpi-delta { font-size: 11px; font-weight: 600; color: var(--brand-primary); }
+    .card-box {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid #E2E8F0; }
+    th { font-size: 11px; text-transform: uppercase; color: #64748B; }
+    .status-pill {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      background: #FEF3EE;
+      color: var(--brand-primary);
+    }
+    .btn-sm {
+      background: var(--brand-primary);
+      color: #FFF;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    @media (max-width: 860px) {
+      body { flex-direction: column; }
+      aside.admin-sidebar { width: 100%; }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand-title">NEXUS AI CLOUD <span>Hub</span></div>
+    <div class="nav-item active">📊 Pipeline & Operations</div>
+    <div class="nav-item" onclick="window.location.href='index.html'">👁️ View Public Showcase</div>
+    <div style="margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,0.12);font-size:11px;color:#94A3B8;">
+      WhatsApp Target:
+      <input type="text" id="adminWaInput" data-wl-wa value="919061902295" style="width:100%;margin-top:6px;padding:6px;border-radius:4px;border:none;font-size:12px;">
+    </div>
+  </aside>
+
+  <main>
+    <div class="top-bar">
+      <div>
+        <div class="mobile-brand" style="font-size:12px;font-weight:700;color:var(--brand-primary);text-transform:uppercase;">NEXUS AI CLOUD</div>
+        <h1 style="font-size:22px;">SaaS Founder Command Center — Waitlist, Trials & MRR Pipeline</h1>
+      </div>
+      <a href="index.html" class="btn-sm">← Back to Customer View</a>
+    </div>
+
+    <div class="kpi-grid">
+      
+        <div class="kpi-card">
+          <div class="kpi-label">Active Trial Workspaces</div>
+          <div class="kpi-val">148</div>
+          <div class="kpi-delta">+24% this week</div>
+        </div>
+      
+        <div class="kpi-card">
+          <div class="kpi-label">Qualified Demo Pipeline</div>
+          <div class="kpi-val">₹18.4L ARR</div>
+          <div class="kpi-delta">19 Enterprise leads</div>
+        </div>
+      
+        <div class="kpi-card">
+          <div class="kpi-label">Edge Agent Invocations</div>
+          <div class="kpi-val">4.2M / mo</div>
+          <div class="kpi-delta">99.99% Uptime</div>
+        </div>
+      
+        <div class="kpi-card">
+          <div class="kpi-label">D1 Read Quota Used</div>
+          <div class="kpi-val">0.4%</div>
+          <div class="kpi-delta">Edge CDN Cached</div>
+        </div>
+      
+    </div>
+
+    <div class="card-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <h2 style="font-size:16px;">Live Incoming Leads, Bookings & Selections</h2>
+        <button class="btn-sm" onclick="addQuickEntry()">+ New Counter / Manual Entry</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Client / Prospect</th>
+              <th>Configuration / Notes</th>
+              <th>Value</th>
+              <th>Status</th>
+              <th>WhatsApp Action</th>
+            </tr>
+          </thead>
+          <tbody id="leadsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const SEED_LEADS = [
+  {
+    "id": "LD-901",
+    "name": "Rahul Menon (CTO, FinStack Kochi)",
+    "phone": "919847011223",
+    "detail": "Team: 28 • Est. ROI: ₹1.17Cr/yr • Enterprise Plan",
+    "status": "DEMO SCHEDULED",
+    "amount": "₹49,000/mo"
+  },
+  {
+    "id": "LD-902",
+    "name": "Ananya Sharma (VP Ops, CloudCart)",
+    "phone": "919895044556",
+    "detail": "Team: 14 • Est. ROI: ₹58.9L/yr • Growth Plan",
+    "status": "TRIAL ACTIVE",
+    "amount": "₹14,900/mo"
+  },
+  {
+    "id": "LD-903",
+    "name": "Vikram Nair (Founder, ShipFast India)",
+    "phone": "919447088990",
+    "detail": "Team: 8 • Est. ROI: ₹33.6L/yr • Growth Plan",
+    "status": "NEW WAITLIST",
+    "amount": "₹14,900/mo"
+  }
+];
+
+    function getLeads() {
+      try {
+        const local = JSON.parse(localStorage.getItem('bmad_leads_tpl-land-saas-bento') || '[]');
+        return [...local, ...SEED_LEADS];
+      } catch (e) {
+        return SEED_LEADS;
+      }
+    }
+
+    function renderLeads() {
+      const rows = getLeads();
+      const tbody = document.getElementById('leadsTableBody');
+      tbody.innerHTML = rows.map((r, idx) => `
+        <tr>
+          <td><strong>${r.id}</strong></td>
+          <td>${r.name}<br><span style="font-size:11px;color:#64748B;">+${r.phone}</span></td>
+          <td>${r.detail}</td>
+          <td><strong>${r.amount}</strong></td>
+          <td><span class="status-pill" onclick="cycleStatus(${idx})" style="cursor:pointer;" title="Click to advance status">${r.status}</span></td>
+          <td>
+            <a class="btn-sm" target="_blank" href="https://wa.me/${String(r.phone).replace(/[^0-9]/g,'')}?text=${encodeURIComponent('Hello ' + r.name + ', following up regarding ' + r.id + ' (' + r.detail + ')')}">
+              💬 WhatsApp
+            </a>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function addQuickEntry() {
+      const name = prompt('Client Name:');
+      if (!name) return;
+      const detail = prompt('Requirement / Unit / Package:', 'Sub-50ms Edge Agents');
+      const amount = prompt('Estimated Value:', '₹45,000');
+      const local = JSON.parse(localStorage.getItem('bmad_leads_tpl-land-saas-bento') || '[]');
+      local.unshift({
+        id: 'ADM-' + Math.floor(1000 + Math.random() * 9000),
+        name,
+        phone: document.getElementById('adminWaInput').value || '919061902295',
+        detail: detail || 'Walk-in Inquiry',
+        amount: amount || '₹0',
+        status: 'APPROVED'
+      });
+      localStorage.setItem('bmad_leads_tpl-land-saas-bento', JSON.stringify(local));
+      renderLeads();
+    }
+
+    renderLeads();
+  </script>
+</body>
+</html>
